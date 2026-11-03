@@ -4,11 +4,13 @@ We send a composition plan whose section durations match our beat timeline (musi
 section durations), so scenes/karaoke stay in sync. If word timestamps come back, lyrics are re-timed
 to the real singing.
 
-env: ELEVENLABS_API_KEY  (restricted key with Music permission)
+Auth: preferably a cloud-environment "Network secret" for host api.elevenlabs.io with custom header
+`xi-api-key` (no prefix) — the agent proxy injects the key, sessions never see it.
+Fallback: env ELEVENLABS_API_KEY (local runs only).
 """
 import base64, email, json, os, re, sys
 from email.policy import default as email_policy
-import urllib.request
+import urllib.request, urllib.error
 
 API = "https://api.elevenlabs.io/v1/music/detailed"
 MODEL = os.environ.get("MEADOWBOP_MUSIC_MODEL", "music_v2_5")
@@ -78,13 +80,17 @@ def _parse(body, ctype):
 
 
 def compose(ep, song, out_path, key=None):
-    key = key or os.environ["ELEVENLABS_API_KEY"]
+    key = key or os.environ.get("ELEVENLABS_API_KEY")
     plan = plan_for(ep, song)
     payload = dict(composition_plan=plan, model_id=MODEL, with_timestamps=True,
                    seed=int(ep.get("seed", 1)) % 2147483647)
     req = urllib.request.Request(API + "?output_format=mp3_44100_192", data=json.dumps(payload).encode(),
-                                 headers={"xi-api-key": key, "Content-Type": "application/json"}, method="POST")
-    with urllib.request.urlopen(req, timeout=900) as r:
+                                 headers={"Content-Type": "application/json", **({"xi-api-key": key} if key else {})}, method="POST")
+    try:
+        r = urllib.request.urlopen(req, timeout=900)
+    except urllib.error.HTTPError as e:
+        raise RuntimeError(f"ElevenLabs HTTP {e.code}: {e.read()[:800].decode('utf-8', 'replace')}")
+    with r:
         body, ctype = r.read(), r.headers.get("Content-Type", "")
         song_id = r.headers.get("song-id")
     audio, meta = _parse(body, ctype)

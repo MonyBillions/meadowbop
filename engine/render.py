@@ -385,7 +385,7 @@ def main():
     vi = next(i for i, s in enumerate(ep["sections"]) if s["type"] == "verse")
     ci = next(i for i, s in enumerate(ep["sections"]) if s["type"] == "chorus")
     short = music.build_song(ep, [vi, ci], intro_beats=8, outro_beats=4)
-    use_eleven = bool(os.environ.get("ELEVENLABS_API_KEY")) and "--no-eleven" not in sys.argv and not preview
+    use_eleven = "--no-eleven" not in sys.argv and not preview  # ElevenLabs is the default voice
     res = {}
     full_mp3 = None
     if use_eleven:

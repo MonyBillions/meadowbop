@@ -46,7 +46,7 @@ Copy the structure of the most recent episode. Rules:
 ## 3b. Voice / music
 Sung vocals come from ElevenLabs Music (official API, commercial use on paid plan): `engine/eleven.py` sends a
 composition plan (our lyrics + section durations + child-like vocal styles) and re-times the karaoke to the
-returned word timestamps. Needs `ELEVENLABS_API_KEY` in the environment and `api.elevenlabs.io` allowed.
+returned word timestamps. Auth: cloud-environment Network secret (host api.elevenlabs.io, header `xi-api-key`) — never put the key in code, prompts or commits.
 One generation per day (the Short is cut from the same song). If ElevenLabs fails, STOP and report — do not
 publish the robotic fallback voice (`--no-eleven`) unless the user asked for it.
 
