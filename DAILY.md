@@ -60,13 +60,19 @@ python3 engine/metadata.py episodes/<file>.json out/<date>
 Look at the preview PNGs (Read tool). Fix overlapping text, characters off-screen, wrong props. Confirm both MP4s
 exist, video 90-150 s, Short <= 59 s, audio present (ffmpeg volumedetect mean > -30 dB).
 
-## 5. Host the files (GitHub release in this repo)
+## 5. Host the files (orphan `media` branch, public raw URLs)
+GitHub Releases are not allowed from Claude sessions, so media lives on the `media` branch, rewritten daily
+to keep only the last 3 days (keeps the repo small):
 ```bash
-gh release create <date>-<slug> out/<date>/<slug>_video.mp4 out/<date>/<slug>_short.mp4 \
-  --repo MonyBillions/meadowbop --title "<title>" --notes "Episode <date>"
+D=<date>; rm -rf /tmp/media && git clone --depth 1 -b media https://github.com/MonyBillions/meadowbop /tmp/media
+cd /tmp/media && ls -d 20*/ | sort | head -n -2 | xargs -r rm -rf      # keep 2 previous days
+mkdir -p $D && cp ~/meadowbop/out/$D/<slug>_video.mp4 ~/meadowbop/out/$D/<slug>_short.mp4 $D/
+git checkout --orphan tmp && git add -A && git -c user.name="Meadowbop Bot" -c user.email="noreply@anthropic.com" \
+  commit -qm "media $D" && git branch -D media && git branch -m media && git push -f origin media
 ```
-Public URLs: `https://github.com/MonyBillions/meadowbop/releases/download/<tag>/<file>`.
-Commit the episode JSON + metadata JSON and append one line to `history.md` (date | title | theme | scenes | key/bpm).
+URL: `https://raw.githubusercontent.com/MonyBillions/meadowbop/media/<date>/<file>` (check with `curl -sIL` → 200).
+Commit the episode JSON + metadata JSON to `main` and append one line to `history.md`
+(date | title | theme | scenes | key/bpm).
 
 ## 6. Publish via Metricool (brand "Meadowbop", YouTube channel @meadowbopkid)
 - `getBrandSettings` -> blogId of the Meadowbop brand (NOT veron_and_co).
