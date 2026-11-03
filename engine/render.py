@@ -95,19 +95,34 @@ class Episode:
         scene = s.get("scene") or "meadow"
         cast = self.cast_of(s)
         singer = s.get("singer", "all")
-        # camera
-        prog = (b - s["start"]) / max(1, s["end"] - s["start"])
-        zoom = L["zoom"] * (1.0 + 0.06 * prog)
+        # camera: shot per lyric line (wide / medium / close-up), like broadcast kids shows
+        xs = POS[self.layout][min(len(cast), 5)]
+        li = int((b - s["start"]) // 8)
+        lp = ((b - s["start"]) % 8) / 8
+        plan = {"verse": ["wide", "medium", "close", "medium"], "chorus": ["wide", "group", "wide", "medium"]}
+        shot = plan.get(s["kind"], ["wide"])[li % 4] if s["kind"] in plan else "wide"
+        tgt = singer if singer in cast else cast[(li + s.get("idx", 0)) % len(cast)]
+        tx = xs[cast.index(tgt)] if tgt in cast else 640
+        hgt = CHARACTERS[tgt]["height"] * (0.92 if CHARACTERS[tgt]["height"] < 300 else 0.86) if tgt in CHARACTERS else 300
+        mult = {"wide": 1.0, "group": 1.22, "medium": 1.55, "close": 2.25}[shot]
+        if self.layout == "vert":
+            mult = {"wide": 1.0, "group": 1.1, "medium": 1.25, "close": 1.6}[shot]
+        zoom = L["zoom"] * mult * (1 + 0.035 * lp)
         if s["kind"] == "chorus":
             zoom *= 1 + 0.012 * max(0, math.cos(b * math.pi * 2)) ** 8
-        xs = POS[self.layout][min(len(cast), 5)]
-        focus = 640
-        if singer in cast and s["kind"] == "verse":
-            focus = 640 + (xs[cast.index(singer)] - 640) * 0.35 * prog
-        half = W / 2 / zoom
+        if shot == "wide":
+            focus, fy = 640, L["cy"]
+        elif shot == "group":
+            focus, fy = 640, 612 - hgt * 0.5
+        elif shot == "medium":
+            focus, fy = tx, 612 - hgt * 0.55
+        else:
+            focus, fy = tx, 612 - hgt * 0.8
+        half = W / 2 / zoom; halfh = H / 2 / zoom
         cx = min(max(focus, half), 1280 - half)
+        cy = min(max(fy, Y0 + halfh), 1140 - halfh)
         c.save()
-        c.translate(W / 2, H / 2); c.scale(zoom, zoom); c.translate(-cx, -L["cy"])
+        c.translate(W / 2, H / 2); c.scale(zoom, zoom); c.translate(-cx, -cy)
         rain = s.get("weather") == "rain"
         draw_sky(c, t, night=scene in NIGHT, rain=rain)
         c.set_source_surface(self.layer(scene), 0, Y0); c.paint()
@@ -377,7 +392,7 @@ def main():
         base = os.path.join(outdir, f"{slug}_{'video' if layout == 'land' else 'short'}")
         if preview:
             render(ep, song, layout, None, base, preview); continue
-        dur_a, inst = music.render_audio(song, ep, base + ".wav")
+        dur_a, inst = music.render_audio(song, ep, base + ".wav", vocals="--no-vocals" not in sys.argv)
         dur = render(ep, song, layout, base + ".wav", base + ".mp4")
         os.remove(base + ".wav")
         res[layout] = dict(file=base + ".mp4", seconds=round(dur, 1), instruments=inst)

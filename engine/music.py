@@ -156,7 +156,7 @@ def build_song(ep, section_ids=None, intro_beats=16, outro_beats=8):
     return dict(notes=notes, chords=chords, sections=sections, total=pos, root=root, bpm=ep.get("bpm", 112))
 
 
-def render_audio(song, ep, path):
+def render_audio(song, ep, path, vocals=True):
     import fluidsynth
     from scipy.io import wavfile
     beat = 60.0 / song["bpm"]
@@ -177,8 +177,9 @@ def render_audio(song, ep, path):
     root = song["root"]
     for n in song["notes"]:
         t, d = n["beat"] * beat, n["dur"] * beat * 0.9
-        note(t, d, 0, n["pitch"], 108 if n["kind"] == "lyric" else 92)
-        note(t, d, 1, n["pitch"] + 12, 45)
+        lv = (62 if vocals else 108) if n["kind"] == "lyric" else 92
+        note(t, d, 0, n["pitch"], lv)
+        note(t, d, 1, n["pitch"] + 12, 30 if vocals and n["kind"] == "lyric" else 45)
     for b, deg in song["chords"]:
         t = b * beat
         tones = [degree_to_midi(TRIAD[deg][i] - 7, root) for i in range(3)]
@@ -218,7 +219,30 @@ def render_audio(song, ep, path):
     out.append(fs.get_samples(max(0, int((end + 2.0) * SR) - cur)))
     fs.delete()
     pcm = np.concatenate(out).astype(np.float32).reshape(-1, 2)
-    pcm *= 29000 / max(1.0, np.abs(pcm).max())
+    pcm /= max(1.0, np.abs(pcm).max())
+    if vocals:
+        import singer
+        secs = song["sections"]
+
+        def who(n):
+            s = next(x for x in secs if x["start"] <= n["beat"] < x["end"])
+            cast = s.get("cast") or ep["cast"]
+            if s["kind"] == "chorus" or s.get("singer", "all") == "all":
+                return cast[:3]
+            return s.get("singer")
+        voc = singer.render_vocals(song, len(pcm) / SR, who, out_sr=SR)
+        voc = voc[:len(pcm)]
+        if len(voc) < len(pcm):
+            voc = np.pad(voc, (0, len(pcm) - len(voc)))
+        # small room reverb on the voice
+        ir_n = int(0.45 * SR); rng = np.random.default_rng(3)
+        ir = rng.standard_normal(ir_n) * np.exp(-np.linspace(0, 7, ir_n)); ir[0] = 0
+        from scipy.signal import fftconvolve
+        wet = fftconvolve(voc, ir)[:len(voc)]; wet /= max(1e-9, np.abs(wet).max())
+        v = voc * 0.9 + wet * 0.22
+        pcm = pcm * 0.62 + np.stack([v, v], 1) * 0.78
+        pcm /= max(1.0, np.abs(pcm).max() / 0.98)
+    pcm *= 29000
     fade = int(1.5 * SR); pcm[-fade:] *= np.linspace(1, 0, fade)[:, None]
     wavfile.write(path, SR, pcm.astype(np.int16))
     return len(pcm) / SR, dict(lead=lead, bell=bell, chord=chordp, bass=bassp)

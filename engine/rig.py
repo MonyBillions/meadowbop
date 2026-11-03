@@ -69,6 +69,7 @@ def flat(ctx, color, lw=LW, outline=True):
 
 # ------------------------------------------------------------- face parts
 def eye(ctx, x, y, p, s=1.0):
+    s *= 1.17  # big, friendly eyes
     if p.get("blink"):
         ctx.set_source_rgba(*OUT); ctx.set_line_width(4 * s); ctx.set_line_cap(1)
         ctx.arc(x, y - 2 * s, 10 * s, 0.15 * math.pi, 0.85 * math.pi); ctx.stroke()
