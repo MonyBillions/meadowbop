@@ -364,7 +364,7 @@ def render(ep, song, layout, wav, out, preview=None):
     n = int(E.dur * FPS)
     ff = subprocess.Popen(["ffmpeg", "-y", "-loglevel", "error", "-f", "rawvideo", "-pix_fmt", "bgra", "-s", f"{W}x{H}",
                            "-r", str(FPS), "-i", "-", "-i", wav, "-c:v", "libx264", "-preset", "veryfast", "-crf", "21",
-                           "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "160k", "-shortest", "-movflags", "+faststart", out],
+                           "-pix_fmt", "yuv420p", "-af", "apad", "-c:a", "aac", "-b:a", "160k", "-shortest", "-movflags", "+faststart", out],
                           stdin=subprocess.PIPE)
     for i in range(n):
         c.save(); E.frame(c, i / FPS); c.restore(); surf.flush()
