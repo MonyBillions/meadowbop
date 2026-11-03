@@ -8,7 +8,7 @@ Pipeline adapted from MoneyPrinterTurbo (MIT, see MONEYPRINTERTURBO_LICENSE): sc
 
 ## 1. Setup (fresh session)
 ```bash
-pip install --break-system-packages -q pyfluidsynth pycairo numpy scipy
+pip install --break-system-packages -q pyfluidsynth pycairo numpy scipy kokoro-onnx pyworld soundfile
 mkdir -p ~/.fonts && cp fonts/*.ttf ~/.fonts/ && fc-cache -f
 ls /usr/share/sounds/sf2/TimGM6mb.sf2   # GM soundfont (needs libfluidsynth3 + fluid-soundfont)
 ```
@@ -42,6 +42,13 @@ Copy the structure of the most recent episode. Rules:
 - Add `seo`: emoji, hook (1 sentence), summary, 6-10 specific long-tail `keywords` parents actually search
   (e.g. "brush your teeth song for kids"), 3-5 `hashtags`. Accurate only: no unrelated trending tags, no other
   channels' names. YouTube ignores ALL hashtags if there are more than 15.
+
+## 3b. Voice / music
+Sung vocals come from ElevenLabs Music (official API, commercial use on paid plan): `engine/eleven.py` sends a
+composition plan (our lyrics + section durations + child-like vocal styles) and re-times the karaoke to the
+returned word timestamps. Needs `ELEVENLABS_API_KEY` in the environment and `api.elevenlabs.io` allowed.
+One generation per day (the Short is cut from the same song). If ElevenLabs fails, STOP and report — do not
+publish the robotic fallback voice (`--no-eleven`) unless the user asked for it.
 
 ## 4. Render + check
 ```bash

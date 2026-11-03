@@ -384,17 +384,49 @@ def main():
     full = music.build_song(ep)
     vi = next(i for i, s in enumerate(ep["sections"]) if s["type"] == "verse")
     ci = next(i for i, s in enumerate(ep["sections"]) if s["type"] == "chorus")
-    short = music.build_song(ep, [vi, ci], intro_beats=8, outro_beats=8)
+    short = music.build_song(ep, [vi, ci], intro_beats=8, outro_beats=4)
+    use_eleven = bool(os.environ.get("ELEVENLABS_API_KEY")) and "--no-eleven" not in sys.argv and not preview
     res = {}
+    full_mp3 = None
+    if use_eleven:
+        import eleven
+        full_mp3 = os.path.join(outdir, f"{slug}_song.mp3")
+        if not os.path.exists(full_mp3):
+            meta = eleven.compose(ep, full, full_mp3)
+        else:
+            meta = json.load(open(full_mp3[:-4] + "_meta.json"))
+        print("eleven words matched:", eleven.retime(full, meta))
+        # Short = verse 1 + chorus 1 cut from the same recording (no second generation)
+        beat = 60.0 / full["bpm"]
+        v1 = next(s for s in full["sections"] if s["kind"] == "verse")
+        c1 = next(s for s in full["sections"] if s["kind"] == "chorus")
+        off = (v1["start"] - 8) * beat
+        end = (c1["end"] + 4) * beat
+        short_wav = os.path.join(outdir, f"{slug}_short_cut.wav")
+        subprocess.run(["ffmpeg", "-y", "-loglevel", "error", "-ss", f"{off:.3f}", "-t", f"{end - off:.3f}", "-i", full_mp3,
+                        "-af", f"afade=t=out:st={end - off - 2.0:.3f}:d=2", "-ar", "44100", short_wav], check=True)
+        # re-time short notes from the full song
+        shift = v1["start"] - 8
+        dst = [n for n in short["notes"] if n["kind"] == "lyric"]
+        full_lyr = [n for n in full["notes"] if n["kind"] == "lyric"]
+        fl = [n for n in full_lyr if n["line"] in (full["sections"].index(v1), full["sections"].index(c1))]
+        for a, b in zip(dst, fl):
+            a["beat"] = b["beat"] - shift; a["dur"] = b["dur"]
     for layout, song in (("land", full), ("vert", short)):
         if only and only != layout:
             continue
         base = os.path.join(outdir, f"{slug}_{'video' if layout == 'land' else 'short'}")
         if preview:
             render(ep, song, layout, None, base, preview); continue
-        dur_a, inst = music.render_audio(song, ep, base + ".wav", vocals="--no-vocals" not in sys.argv)
-        dur = render(ep, song, layout, base + ".wav", base + ".mp4")
-        os.remove(base + ".wav")
+        if use_eleven:
+            audio = full_mp3 if layout == "land" else short_wav
+            inst = {"music": "elevenlabs " + eleven.MODEL}
+        else:
+            audio = base + ".wav"
+            dur_a, inst = music.render_audio(song, ep, audio, vocals="--no-vocals" not in sys.argv)
+        dur = render(ep, song, layout, audio, base + ".mp4")
+        if audio.endswith(".wav"):
+            os.remove(audio)
         res[layout] = dict(file=base + ".mp4", seconds=round(dur, 1), instruments=inst)
         print("done", base + ".mp4", round(dur, 1))
     if res:
