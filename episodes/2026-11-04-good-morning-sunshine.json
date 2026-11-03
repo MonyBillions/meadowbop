@@ -1,0 +1,141 @@
+{
+  "date": "2026-11-04",
+  "slug": "good-morning-sunshine",
+  "title": "Good Morning, Sunshine!",
+  "subtitle": "Morning Routine Song for Kids",
+  "theme": "waking up, brushing teeth, eating breakfast",
+  "seed": 1104,
+  "bpm": 112,
+  "key": "F",
+  "mood": "bouncy",
+  "cast": [
+    "lily",
+    "leo",
+    "pip"
+  ],
+  "intro_scene": "bedroom",
+  "outro_scene": "park",
+  "outro_text": "See you tomorrow!",
+  "sections": [
+    {
+      "type": "verse",
+      "scene": "bedroom",
+      "singer": "lily",
+      "action": "stretch",
+      "others": "yawn",
+      "cast": [
+        "lily",
+        "leo"
+      ],
+      "lines": [
+        "The sun is peeking through my window,",
+        "Time to wake up, sleepy head!",
+        "Stretch up high and wiggle your toes,",
+        "Hop, hop, hop right out of bed!"
+      ]
+    },
+    {
+      "type": "chorus",
+      "scene": "bedroom",
+      "action": "dance",
+      "cast": [
+        "lily",
+        "leo"
+      ],
+      "lines": [
+        "Good morning, good morning, hello to the day!",
+        "Good morning, good morning, let's laugh and play!",
+        "With a yawn and a stretch and a great big smile,",
+        "Good morning, sunshine, stay a while!"
+      ]
+    },
+    {
+      "type": "verse",
+      "scene": "bathroom",
+      "singer": "leo",
+      "action": "brush",
+      "others": "wash",
+      "cast": [
+        "leo",
+        "lily"
+      ],
+      "lines": [
+        "Brush, brush, brush my teeth so bright,",
+        "Up and down and left and right,",
+        "Splash my face and comb my hair,",
+        "Bubbles, bubbles everywhere!"
+      ]
+    },
+    {
+      "type": "chorus",
+      "scene": "bathroom",
+      "action": "dance",
+      "cast": [
+        "leo",
+        "lily"
+      ],
+      "lines": [
+        "Good morning, good morning, hello to the day!",
+        "Good morning, good morning, let's laugh and play!",
+        "With a yawn and a stretch and a great big smile,",
+        "Good morning, sunshine, stay a while!"
+      ]
+    },
+    {
+      "type": "verse",
+      "scene": "kitchen",
+      "singer": "pip",
+      "action": "eat",
+      "others": "drink",
+      "cast": [
+        "lily",
+        "pip",
+        "leo"
+      ],
+      "lines": [
+        "Pancakes, berries, milk for me,",
+        "Yummy, yummy, one, two, three!",
+        "Say thank you and clean my plate,",
+        "A brand new day, I just can't wait!"
+      ]
+    },
+    {
+      "type": "chorus",
+      "scene": "park",
+      "action": "dance",
+      "cast": [
+        "lily",
+        "leo",
+        "pip",
+        "rosie"
+      ],
+      "lines": [
+        "Good morning, good morning, hello to the day!",
+        "Good morning, good morning, let's laugh and play!",
+        "With a yawn and a stretch and a great big smile,",
+        "Good morning, sunshine, stay a while!"
+      ]
+    }
+  ],
+  "seo": {
+    "emoji": "☀️",
+    "hook": "Rise and shine! ☀️ Wake up, stretch, brush your teeth and eat breakfast with Lily, Leo and Pip in this happy morning routine song for kids.",
+    "summary": "Good Morning, Sunshine! is an original morning routine song that turns getting ready into a fun sing-along.",
+    "keywords": [
+      "morning routine song",
+      "good morning song for kids",
+      "wake up song",
+      "brush your teeth song",
+      "breakfast song for kids",
+      "daily routine song",
+      "good morning sunshine song",
+      "morning song for toddlers"
+    ],
+    "hashtags": [
+      "#MorningRoutine",
+      "#KidsSongs",
+      "#GoodMorningSong",
+      "#BrushYourTeeth"
+    ]
+  }
+}
