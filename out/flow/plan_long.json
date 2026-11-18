@@ -1,0 +1,229 @@
+{
+ "episode": "/home/claude/meadowbop/episodes/2026-11-18-good-morning-sunshine-long.json",
+ "song": "/home/claude/meadowbop/out/flow/song_long.mp3",
+ "words": "/home/claude/meadowbop/out/flow/song_long_words.json",
+ "lines": [
+  "The sun is peeking through my window,",
+  "Time to wake up, sleepy head!",
+  "Stretch up high and wiggle your toes,",
+  "Hop, hop, hop right out of bed!",
+  "Good morning, good morning, hello to the day!",
+  "Good morning, good morning, let's laugh and play!",
+  "With a yawn and a stretch and a great big smile,",
+  "Good morning, sunshine, stay a while!",
+  "Brush, brush, brush my teeth so bright,",
+  "Up and down and left and right,",
+  "Splash my face and comb my hair,",
+  "Bubbles, bubbles everywhere!",
+  "Good morning, good morning, hello to the day!",
+  "Good morning, good morning, let's laugh and play!",
+  "With a yawn and a stretch and a great big smile,",
+  "Good morning, sunshine, stay a while!",
+  "Pancakes, berries, milk for me,",
+  "Yummy, yummy, one, two, three!",
+  "Say thank you and clean my plate,",
+  "A brand new day, I just can't wait!",
+  "Good morning, good morning, hello to the day!",
+  "Good morning, good morning, let's laugh and play!",
+  "With a yawn and a stretch and a great big smile,",
+  "Good morning, sunshine, stay a while!",
+  "Shirt goes on and pants go too,",
+  "Socks and then my bright red shoes!",
+  "Zip my jacket, snug and tight,",
+  "Look at me, I'm dressed just right!",
+  "Good morning, good morning, hello to the day!",
+  "Good morning, good morning, let's laugh and play!",
+  "With a yawn and a stretch and a great big smile,",
+  "Good morning, sunshine, stay a while!",
+  "Grab my backpack, hug goodbye,",
+  "Wave to Grandpa, way up high!",
+  "Hop on the bus and off we go,",
+  "Sunshine smiling, don't you know!",
+  "Good morning, good morning, hello to the day!",
+  "Good morning, good morning, let's laugh and play!",
+  "With a yawn and a stretch and a great big smile,",
+  "Good morning, sunshine, stay a while!",
+  "Sunshine, stay a while!"
+ ],
+ "title_until": 7.5,
+ "outro_from": 173.5,
+ "total": 180.0,
+ "shots": [
+  {
+   "start": 0,
+   "end": 8,
+   "clip": "/home/claude/meadowbop/out/flow/el_park.mp4",
+   "mirror": true,
+   "zoom": 1.15,
+   "offset": 0
+  },
+  {
+   "start": 8,
+   "end": 16.6,
+   "clip": "/home/claude/meadowbop/out/flow/clip1.mp4",
+   "mirror": false,
+   "zoom": 1.0,
+   "offset": 0
+  },
+  {
+   "start": 16.6,
+   "end": 26.3,
+   "clip": "/home/claude/meadowbop/out/flow/clip1.mp4",
+   "mirror": false,
+   "zoom": 1.3,
+   "offset": 0
+  },
+  {
+   "start": 26.3,
+   "end": 34.4,
+   "clip": "/home/claude/meadowbop/out/flow/clip2.mp4",
+   "mirror": false,
+   "zoom": 1.0,
+   "offset": 0
+  },
+  {
+   "start": 34.4,
+   "end": 42.5,
+   "clip": "/home/claude/meadowbop/out/flow/clip2.mp4",
+   "mirror": true,
+   "zoom": 1.2,
+   "offset": 0
+  },
+  {
+   "start": 42.5,
+   "end": 51,
+   "clip": "/home/claude/meadowbop/out/flow/el_teeth.mp4",
+   "mirror": false,
+   "zoom": 1.0,
+   "offset": 0
+  },
+  {
+   "start": 51,
+   "end": 60.6,
+   "clip": "/home/claude/meadowbop/out/flow/el_teeth.mp4",
+   "mirror": true,
+   "zoom": 1.25,
+   "offset": 0
+  },
+  {
+   "start": 60.6,
+   "end": 68.5,
+   "clip": "/home/claude/meadowbop/out/flow/clip2.mp4",
+   "mirror": false,
+   "zoom": 1.1,
+   "offset": 0
+  },
+  {
+   "start": 68.5,
+   "end": 76.5,
+   "clip": "/home/claude/meadowbop/out/flow/el_park.mp4",
+   "mirror": false,
+   "zoom": 1.2,
+   "offset": 0
+  },
+  {
+   "start": 76.5,
+   "end": 86,
+   "clip": "/home/claude/meadowbop/out/flow/el_breakfast.mp4",
+   "mirror": false,
+   "zoom": 1.0,
+   "offset": 0
+  },
+  {
+   "start": 86,
+   "end": 90.6,
+   "clip": "/home/claude/meadowbop/out/flow/el_breakfast.mp4",
+   "mirror": true,
+   "zoom": 1.3,
+   "offset": 2
+  },
+  {
+   "start": 90.6,
+   "end": 98.5,
+   "clip": "/home/claude/meadowbop/out/flow/clip2.mp4",
+   "mirror": true,
+   "zoom": 1.0,
+   "offset": 0
+  },
+  {
+   "start": 98.5,
+   "end": 106.5,
+   "clip": "/home/claude/meadowbop/out/flow/el_breakfast.mp4",
+   "mirror": false,
+   "zoom": 1.15,
+   "offset": 3
+  },
+  {
+   "start": 106.5,
+   "end": 116.5,
+   "clip": "/home/claude/meadowbop/out/flow/clip2.mp4",
+   "mirror": false,
+   "zoom": 1.3,
+   "offset": 0
+  },
+  {
+   "start": 116.5,
+   "end": 125,
+   "clip": "/home/claude/meadowbop/out/flow/el_park.mp4",
+   "mirror": true,
+   "zoom": 1.0,
+   "offset": 0
+  },
+  {
+   "start": 125,
+   "end": 131.5,
+   "clip": "/home/claude/meadowbop/out/flow/clip2.mp4",
+   "mirror": false,
+   "zoom": 1.0,
+   "offset": 0
+  },
+  {
+   "start": 131.5,
+   "end": 138.5,
+   "clip": "/home/claude/meadowbop/out/flow/el_park.mp4",
+   "mirror": false,
+   "zoom": 1.25,
+   "offset": 0
+  },
+  {
+   "start": 138.5,
+   "end": 149.5,
+   "clip": "/home/claude/meadowbop/out/flow/el_bus.mp4",
+   "mirror": false,
+   "zoom": 1.0,
+   "offset": 0
+  },
+  {
+   "start": 149.5,
+   "end": 158,
+   "clip": "/home/claude/meadowbop/out/flow/el_bus.mp4",
+   "mirror": true,
+   "zoom": 1.2,
+   "offset": 3
+  },
+  {
+   "start": 158,
+   "end": 166,
+   "clip": "/home/claude/meadowbop/out/flow/el_park.mp4",
+   "mirror": false,
+   "zoom": 1.0,
+   "offset": 0
+  },
+  {
+   "start": 166,
+   "end": 173,
+   "clip": "/home/claude/meadowbop/out/flow/clip2.mp4",
+   "mirror": true,
+   "zoom": 1.15,
+   "offset": 0
+  },
+  {
+   "start": 173,
+   "end": 180,
+   "clip": "/home/claude/meadowbop/out/flow/el_park.mp4",
+   "mirror": true,
+   "zoom": 1.1,
+   "offset": 0
+  }
+ ]
+}
